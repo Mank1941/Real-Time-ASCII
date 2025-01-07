@@ -1,0 +1,6 @@
+
+Image to ASCII Parameters:
+    Characters = 100
+    Brightness
+    Saturation
+    Contrast
