@@ -4,3 +4,10 @@ Image to ASCII Parameters:
     Brightness
     Saturation
     Contrast
+
+Video Capture Panel:
+Capture Width and Height
+Take Picture Button
+Black&White Toggle
+Brightness Slider
+Contrast Slider

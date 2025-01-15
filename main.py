@@ -2,57 +2,40 @@
     ASCII_Convert
     by Prosper Manyele
 """
-import cv2
-from video_capture import*
-
-
-def display_frame(frame):
-    """
-    Displays a frame
-    :param frame: The frame to display
-    """
-
-    height, width, _ = frame.shape
-
-    # Text Properties
-    text = f"{width}x{height}"
-    font = cv2.FONT_HERSHEY_SIMPLEX
-    font_scale = 1
-    color = (0, 255, 0)  # Green color in BGR
-    thickness = 2
-    position = (10, height - 10)  # 10 pixels from the bottom-left corner
-
-    # Overlay the text on the frame
-    cv2.putText(frame, text, position, font, font_scale, color, thickness, lineType=cv2.LINE_AA)
-
-    # Display the resulting frame
-    cv2.imshow('ASCII_Convert', frame)
+import tkinter as tk
+from video_capture import VideoCapture
 
 def main():
-    # Open a connection to the webcam
-    cap = cv2.VideoCapture(0)
-    if not cap.isOpened():
-        print("Error: Could not access the webcam.")
-        return
+    # Create the main window
+    window = tk.Tk()
+    window.title("ASCII Converter")
+    window.geometry("900x500")
 
-    print("Press 'q' to exit the video capture or click the close button (X).")
+    # Create a frame for video capture
+    video_capture_frame = tk.Frame(window, width=640, height=480, bg="black")
+    video_capture_frame.grid(row=0, column=0, padx=10, pady=10)
+    video_capture_frame.grid_propagate(False)  # Lock frame size
+    video_capture_frame.pack_propagate(False)
 
-    while True:
-        # Capture a frame
-        frame = capture_frame(cap)
-        if frame is None:
-            break
+    # Add a label to the video capture frame
+    video_label = tk.Label(video_capture_frame, text="Video Capture", fg="white", bg="black")
+    video_label.place(relx=0.5, rely=0.5, anchor="center")
 
-        # Display the frame with text
-        display_frame(frame)
+    # Create a frame for the video capture panel
+    video_capture_panel = tk.Frame(window, width=220, height=480, bg="gray")
+    video_capture_panel.grid(row=0, column=1, padx=10, pady=10, sticky="ns")
+    video_capture_panel.grid_propagate(False)  # Lock panel size
+    video_capture_panel.pack_propagate(False)
 
-        # Check if 'q' is pressed or the window is closed
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
+    # Add a title to the panel
+    panel_title = tk.Label(video_capture_panel, text="Control Panel", bg="gray", font=("Arial", 14))
+    panel_title.pack(pady=10)
 
-        # Release resources
-    cap.release()
-    cv2.destroyAllWindows()
+    # Init the VideoCapture
+    video_capture = VideoCapture(video_capture_frame, video_capture_panel)
+
+    # Run the Tkinter event loop
+    window.mainloop()
 
 if __name__ == '__main__':
      main()
