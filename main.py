@@ -6,41 +6,42 @@ import tkinter as tk
 from video_capture import VideoCapture
 
 def main():
-    # Create the main window
+    # Create main window
     window = tk.Tk()
     window.title("ASCII Converter")
-    window.geometry("1000x600")
-    # window.attributes('-fullscreen', True)
+    window.state('zoomed')  # Windowed fullscreen
 
-    # Create a frame for video capture
-    video_capture_frame = tk.Frame(window, width=640, height=480, bg="black")
-    video_capture_frame.grid(row=0, column=0, padx=10, pady=10)
-    video_capture_frame.grid_propagate(False)  # Lock frame size
-    video_capture_frame.pack_propagate(False)
+    # Set up main grid
+    window.grid_rowconfigure(0, weight=1)
+    window.grid_columnconfigure(0, weight=3)  # Video side larger
+    window.grid_columnconfigure(1, weight=1)
 
-    # Create a master frame for control panel
-    control_panel_frame = tk.Frame(window, width=300, height=480, bg="gray")
-    control_panel_frame.grid(row=0, column=1, padx=10, pady=10, sticky="ns")
-    control_panel_frame.grid_propagate(False)
+    # Video Capture Panel
+    video_capture_frame = tk.Frame(window, bg="black")
+    video_capture_frame.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
 
-    # Add a title to the control panel
-    panel_title = tk.Label(control_panel_frame, text="Control Panel", bg="gray", font=("Arial", 14))
-    panel_title.pack(pady=10)
+    # Control Panel
+    control_panel_frame = tk.Frame(window, bg="gray")
+    control_panel_frame.grid(row=0, column=1, padx=10, pady=10, sticky="nsew")
+    control_panel_frame.grid_rowconfigure(1, weight=1)
+    control_panel_frame.grid_rowconfigure(2, weight=1)
 
-    # --- Split the Control Panel into two inner frames ---
+    panel_title = tk.Label(control_panel_frame, text="Control Panel", bg="gray", font=("Arial", 18))
+    panel_title.grid(row=0, column=0, pady=10)
+
     controls_frame_left = tk.Frame(control_panel_frame, bg="lightgray")
-    controls_frame_left.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=5, pady=5)
+    controls_frame_left.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
 
     controls_frame_right = tk.Frame(control_panel_frame, bg="lightgray")
-    controls_frame_right.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True, padx=5, pady=5)
+    controls_frame_right.grid(row=2, column=0, sticky="nsew", padx=5, pady=5)
 
-    # Init the VideoCapture
-    video_capture = VideoCapture(video_capture_frame, controls_frame_left, controls_frame_right)
+    # Initialize VideoCapture
+    VideoCapture(video_capture_frame, controls_frame_left, controls_frame_right)
 
-    # Run the Tkinter event loop
+    # Exit fullscreen with Escape
+    window.bind("<Escape>", lambda e: window.attributes("-fullscreen", False))
+
     window.mainloop()
 
 if __name__ == '__main__':
-     main()
-
-
+    main()
