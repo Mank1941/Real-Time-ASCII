@@ -9,7 +9,7 @@ def main():
     # Create the main window
     window = tk.Tk()
     window.title("ASCII Converter")
-    window.geometry("900x500")
+    window.geometry("1000x600")
 
     # Create a frame for video capture
     video_capture_frame = tk.Frame(window, width=640, height=480, bg="black")
@@ -17,22 +17,24 @@ def main():
     video_capture_frame.grid_propagate(False)  # Lock frame size
     video_capture_frame.pack_propagate(False)
 
-    # Add a label to the video capture frame
-    video_label = tk.Label(video_capture_frame, text="Video Capture", fg="white", bg="black")
-    video_label.place(relx=0.5, rely=0.5, anchor="center")
+    # Create a master frame for control panel
+    control_panel_frame = tk.Frame(window, width=300, height=480, bg="gray")
+    control_panel_frame.grid(row=0, column=1, padx=10, pady=10, sticky="ns")
+    control_panel_frame.grid_propagate(False)
 
-    # Create a frame for the video capture panel
-    video_capture_panel = tk.Frame(window, width=220, height=480, bg="gray")
-    video_capture_panel.grid(row=0, column=1, padx=10, pady=10, sticky="ns")
-    video_capture_panel.grid_propagate(False)  # Lock panel size
-    video_capture_panel.pack_propagate(False)
-
-    # Add a title to the panel
-    panel_title = tk.Label(video_capture_panel, text="Control Panel", bg="gray", font=("Arial", 14))
+    # Add a title to the control panel
+    panel_title = tk.Label(control_panel_frame, text="Control Panel", bg="gray", font=("Arial", 14))
     panel_title.pack(pady=10)
 
+    # --- Split the Control Panel into two inner frames ---
+    controls_frame_left = tk.Frame(control_panel_frame, bg="lightgray")
+    controls_frame_left.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=5, pady=5)
+
+    controls_frame_right = tk.Frame(control_panel_frame, bg="lightgray")
+    controls_frame_right.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True, padx=5, pady=5)
+
     # Init the VideoCapture
-    video_capture = VideoCapture(video_capture_frame, video_capture_panel)
+    video_capture = VideoCapture(video_capture_frame, controls_frame_left, controls_frame_right)
 
     # Run the Tkinter event loop
     window.mainloop()
