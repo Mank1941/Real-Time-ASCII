@@ -10,7 +10,6 @@ from tkinter import messagebox, filedialog
 
 from ascii_converter import gen_ascii_art
 
-
 class VideoCapture:
     def __init__(self, parent_frame, controls_frame_left, controls_frame_right):
         """
@@ -25,9 +24,10 @@ class VideoCapture:
         self.bw_mode = False
         self.brightness = 1.0
         self.contrast = 1.0
+        self.show_ascii = False
 
-        self.video_label = tk.Label(parent_frame)
-        self.video_label.pack(fill=tk.BOTH, expand=True)
+        self.video_display_label = tk.Label(parent_frame)
+        self.video_display_label.pack(fill=tk.BOTH, expand=True)
 
         self.create_controls(controls_frame_left, controls_frame_right)
         self.update_frame()
@@ -76,6 +76,10 @@ class VideoCapture:
         self.contrast_slider.set(1.0)
         self.contrast_slider.pack()
 
+        # Swap View Button
+        self.swap_button = tk.Button(capture_frame, text="Swap View", command=self.swap_view)
+        self.swap_button.pack(pady=5)
+
         # ASCII Controls
         # Snap Frame and Convert to ASCII
         tk.Button(ascii_frame, text="Snap Frame to ASCII", command=self.snap_frame_to_ascii).pack(pady=5)
@@ -86,17 +90,24 @@ class VideoCapture:
         self.size_x_slider.set(640)  # Default
         self.size_x_slider.pack()
 
-        # Size Y (Height)
-        tk.Label(ascii_frame, text="ASCII Size Y (height)").pack()
-        self.size_y_slider = tk.Scale(ascii_frame, from_=10, to=480, orient=tk.HORIZONTAL)
-        self.size_y_slider.set(480)  # Default
-        self.size_y_slider.pack()
+        # ASCII Brightness Slider
+        tk.Label(ascii_frame, text="ASCII Brightness").pack()
+        self.ascii_brightness_slider = tk.Scale(ascii_frame, from_=0.5, to=2.0, resolution=0.1, orient=tk.HORIZONTAL)
+        self.ascii_brightness_slider.set(1.0)
+        self.ascii_brightness_slider.pack()
+
+        # ASCII Sharpness Slider
+        tk.Label(ascii_frame, text="ASCII Sharpness").pack()
+        self.ascii_sharpness_slider = tk.Scale(ascii_frame, from_=0.5, to=3.0, resolution=0.1, orient=tk.HORIZONTAL)
+        self.ascii_sharpness_slider.set(1.0)
+        self.ascii_sharpness_slider.pack()
 
         # Scale
         tk.Label(ascii_frame, text="ASCII Scale").pack()
         self.scale_slider = tk.Scale(ascii_frame, from_=0.25, to=2.0, resolution=0.25, orient=tk.HORIZONTAL)
         self.scale_slider.set(1.0)  # Default
         self.scale_slider.pack()
+
     def update_frame(self):
         """
         Fetches and updates the video frame in the label.
@@ -126,10 +137,31 @@ class VideoCapture:
 
             # Convert frame to ImageTk format
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            img = Image.fromarray(frame)
-            imgtk = ImageTk.PhotoImage(image=img)
-            self.video_label.imgtk = imgtk
-            self.video_label.configure(image=imgtk)
+            pil_img = Image.fromarray(frame)
+
+            if self.show_ascii:
+                size_x = self.size_x_slider.get()
+
+                capture_width = self.capture_width_slider.get()
+                capture_height = self.capture_height_slider.get()
+                aspect_ratio = capture_height / capture_width
+                size_y = int(size_x * aspect_ratio)
+                scale = self.scale_slider.get()
+
+                # Get brightness and sharpness settings
+                ascii_brightness = self.ascii_brightness_slider.get()
+                ascii_sharpness = self.ascii_sharpness_slider.get()
+
+                ascii_img = gen_ascii_art(pil_img, size=(size_x, size_y), scale=scale, brightness=ascii_brightness, sharpness=ascii_sharpness)
+
+                imgtk = ImageTk.PhotoImage(image=ascii_img)
+            else:
+                # Normal Image
+                imgtk = ImageTk.PhotoImage(image=pil_img)
+
+            # Display
+            self.video_display_label.imgtk = imgtk
+            self.video_display_label.configure(image=imgtk)
 
         # Call update_frame again after 200ms (5 fps)
         self.parent_frame.after(200, self.update_frame)
@@ -179,7 +211,12 @@ class VideoCapture:
 
             # --- Get ASCII settings ---
             size_x = self.size_x_slider.get()
-            size_y = self.size_y_slider.get()
+
+            capture_width = self.capture_width_slider.get()
+            capture_height = self.capture_height_slider.get()
+            aspect_ratio = capture_height / capture_width
+            size_y = int(size_x * aspect_ratio)
+
             scale = self.scale_slider.get()
 
             # Convert saved frame to ASCII art
@@ -217,6 +254,13 @@ class VideoCapture:
 
         if self.size_y_slider.get() > capture_height:
             self.size_y_slider.set(capture_height)
+
+    def swap_view(self):
+        """
+        Toggle between showing normal video and ASCII video.
+        """
+        self.show_ascii = not self.show_ascii
+        self.swap_button.config(text="View: ASCII" if self.show_ascii else "View: Normal")
 
     def on_close(self):
         # Release the capture and close the window

@@ -10,6 +10,7 @@ def main():
     window = tk.Tk()
     window.title("ASCII Converter")
     window.geometry("1000x600")
+    # window.attributes('-fullscreen', True)
 
     # Create a frame for video capture
     video_capture_frame = tk.Frame(window, width=640, height=480, bg="black")

@@ -4,7 +4,7 @@
 from image_to_ascii.converter import image_to_ascii, ascii_to_image
 from PIL import Image
 
-def gen_ascii_art(image, size=None, scale=1):
+def gen_ascii_art(image, size=None, scale=1.0, brightness=1.0, sharpness=1.0):
     ascii_art = image_to_ascii(image, size=size, scale=scale)
     return ascii_to_image(ascii_art)
 
