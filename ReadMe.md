@@ -1,6 +1,21 @@
-# Real Time ASCII Conversation
+Perfect — now that your project is officially hosted at:  
+🔗 **[Real-Time-ASCII](https://github.com/Mank1941/Real-Time-ASCII)**
 
-### 🎥📜 Convert Live Video into ASCII Art!
+and you want the `README.md` to properly:
+
+- Mention that `config.py` and `converter.py` come from the cited external repo
+- Credit the original creator clearly
+- Integrate it into your professional documentation
+
+✅ Let's update your `README.md` accordingly.
+
+---
+
+# 📜 Updated `README.md` for Real-Time-ASCII
+
+# Real-Time-ASCII
+
+🎥📜 Convert Live Video into ASCII Art — in Real Time!
 
 Created by **Prosper Manyele**.
 
@@ -8,8 +23,8 @@ Created by **Prosper Manyele**.
 
 ## 🖋️ Project Description
 
-**ASCII_Convert** is a Python application that captures live webcam video and dynamically converts it into real-time ASCII art.  
-Users can switch between the normal camera feed and a live ASCII feed, tweak image settings, and save frames as either normal images or ASCII images.
+**Real-Time-ASCII** is a Python application that captures live webcam video and dynamically converts it into real-time ASCII art.  
+Users can easily switch between the normal camera feed and a live ASCII feed, tweak image settings, and save frames as either normal images or ASCII art.
 
 This project is built using **OpenCV**, **Pillow**, and **Tkinter** for GUI handling, camera capture, and ASCII conversion.
 
@@ -20,11 +35,11 @@ This project is built using **OpenCV**, **Pillow**, and **Tkinter** for GUI hand
 - Captures live video frames from your webcam.
 - Applies real-time brightness, contrast, and grayscale (black-and-white) adjustments.
 - Converts each frame into ASCII characters based on brightness mapping.
-- Displays the ASCII art live inside the GUI alongside the normal video feed.
+- Displays the ASCII art live inside the GUI.
 - Allows you to:
   - Snap and save a raw camera frame
   - Snap and save an ASCII art frame
-  - Toggle between camera view and ASCII view
+  - Toggle between normal camera view and ASCII view
   - Adjust frame size, brightness, sharpness, and scaling
 - Live GUI updating at approximately **5 FPS** for smooth ASCII playback.
 
@@ -32,15 +47,15 @@ This project is built using **OpenCV**, **Pillow**, and **Tkinter** for GUI hand
 
 ## 📋 Features
 
-- Live webcam feed
-- Live ASCII art feed
-- Swap between Normal and ASCII View
-- Brightness, Contrast, and Sharpness sliders
-- Snap and Save frames (normal or ASCII)
-- Fullscreen windowed mode for immersive experience
-- Automatically resizes ASCII to match window size without distortion
-- Aspect Ratio lock for clean ASCII shapes
-- Fine-grain control over output appearance
+- 🎥 Live webcam feed
+- 🅰️ Live ASCII art feed
+- 🔄 Swap between Normal and ASCII View
+- ✨ Real-time Brightness, Contrast, and Sharpness sliders
+- 🖼 Snap and Save frames (normal or ASCII)
+- ⚡ Fullscreen windowed mode for immersive experience
+- 📐 Automatically resizes ASCII to match window size without distortion
+- 🧠 Aspect Ratio lock for clean ASCII shapes
+- 🎛 Fine-grain control over output appearance
 
 ---
 
@@ -48,11 +63,10 @@ This project is built using **OpenCV**, **Pillow**, and **Tkinter** for GUI hand
 
 ### 1. Install Requirements
 
-Make sure you have Python 3.9+ installed.  
-Then install the required libraries:
+First, install the necessary Python libraries:
 
 ```bash
-pip install opencv-python pillow numpy
+pip install -r requirements.txt
 ```
 
 ---
@@ -96,61 +110,42 @@ python main.py
 
 - Raw snapshots are saved under `Images/sample.jpg`
 - ASCII art snapshots are saved under `Images/output.jpg`
-- You can customize the save paths inside `video_capture.py` if needed.
+
+You can customize the save paths in `video_capture.py` if needed.
 
 ---
 
 ## 📂 Project Structure
 
 ```
-ASCII_Convert/
+Real-Time-ASCII/
 │
-├── main.py                # Main window setup
-├── video_capture.py        # Video capture and control panel
-├── ascii_converter.py      # ASCII generation logic
-├── image_to_ascii/         # External ASCII conversion module (cited below)
-├── Images/                 # Saved frames (raw and ASCII)
-├── README.md               # Project documentation (this file)
+├── main.py                  # Main window and app entry
+├── video_capture.py          # Webcam control and ASCII toggling
+├── ascii_converter.py        # Logic to connect images to ASCII generation
+├── config.py             # Character mapping configuration
+├── converter.py          # Main ASCII generation algorithm
+├── Images/                   # Saved frames (raw and ASCII)
+├── README.md                 # Project documentation (this file)
+├── requirements.txt          # Dependency list
 ```
-
----
-
-## 🧠 Technical Details
-
-- Uses OpenCV (`cv2.VideoCapture`) to access webcam frames.
-- Uses Pillow to manipulate frames into ASCII characters.
-- GUI is entirely built using **Tkinter**, lightweight and portable.
-- Window automatically adapts to screen size, keeping aspect ratio correct.
-- ASCII rendering uses brightness-to-character mapping.
 
 ---
 
 ## 🙏 Credits
 
-- **ASCII conversion logic** was adapted and extended from:  
-  🔗 [ajratnam/image-to-ascii](https://github.com/ajratnam/image-to-ascii)  
-  Huge thanks to the original project for providing the core ASCII conversion functionality!
+- **ASCII Conversion Core**:
+  - The `config.py` and `converter.py` files inside `image_to_ascii/` are adapted from the repository:  
+    🔗 [ajratnam/image-to-ascii](https://github.com/ajratnam/image-to-ascii)  
+  - Big thanks to the original creator for providing an excellent foundation for ASCII art generation!
+  
+- **Original application logic**, live video control, GUI design, and real-time system were designed and built by Prosper Manyele.
 
 ---
 
 ## 📜 License
 
 This project is open-source and free to use.  
-Feel free to customize, modify, and share it as needed!
+Feel free to customize, modify, and share it with attribution where appropriate!
 
 ---
-
-# 🚀 Enjoy converting your live world into ASCII art!
-
----
-
-# ✅ Quick Final Summary of What Changed:
-- Added a full **Credits** section at the bottom.
-- Properly cited [ajratnam/image-to-ascii](https://github.com/ajratnam/image-to-ascii).
-- Kept your structure clean and professional.
-
----
-
-Would you like me to also prepare a `requirements.txt` now, so you have a complete release-ready package? 🚀  
-(One simple file: just `pip install -r requirements.txt` and you’re set!)  
-Want me to generate it?
